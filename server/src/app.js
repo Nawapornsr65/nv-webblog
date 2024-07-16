@@ -1,42 +1,41 @@
-let express = require('express')
-const app = express()
+let express = require('express');
+let bodyParser = require('body-parser');
 
-// app.get('/status', function (req,res){
-//     res.send('Hello nodejs server')
-// })
 
-app.get('/status', function (req,res){
-    console.log('----------------------');
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/status', function(req, res){
+    console.log('------------------------------');
     console.log(req);
-    console.log('----------------------');
+    console.log('------------------------------');
     res.send('Hello nodejs server');
-
 })
 
-app.get('/showmyname', function (req,res){
-    res.send('Nawaporn Srisomran')
+app.get('/hello/:person', function (req,res) {
+    console.log('hello - ' + req.params.person);
+    res.send('sey hello with ' + req.params.person);
 })
 
-app.get('/hello/:person', function (req,res){ 
-    console.log('hello - ' + req.params.person) 
-    res.send('say hello with ' + req.params.person) 
+app.get('/user/:userId', function(req, res){
+    res.send('ดูข้อมูล user คนที่ ' + req.params.userId);
 })
 
-app.get('/user/:userID',function(req,res){
-    res.send('see user data')
+app.get('/users', function(req, res){
+    res.send('ดูข้อมูล user ทุกคน');
 })
 
-app.get('/users',function(req,res){
-    res.send('call users data all')
+app.post('/user/', function(req, res){
+    res.send("สร้าง user "+ JSON.stringify(req.body.username));
 })
 
-// app.get('/pow2/:answer', function (req,res){ 
-//     console.log('2 pow - ' + req.params.answer) 
-//     res.send('2 pow 2 = ' + req.params.answer) 
-// })
 
-let port = 8080
 
-app.listen(port,function(){
-    console.log('server running on  ' + port)
-})
+
+
+let port = 8081
+
+app.listen(port, function(){
+    console.log('Server running on http://localhost:' + port)
+});
